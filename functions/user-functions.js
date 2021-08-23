@@ -1,4 +1,6 @@
+const axios = require('axios');
 const { datastore, USERS } = require('./helper-functions/datastore-helpers');
+const { verify } = require('./jwt-functions');
 
 function setUserData(usersObject) {
   const userDetails = {
@@ -29,24 +31,26 @@ async function getUsers(req) {
     query = query.start(req.query.cursor);
   }
 
-  return datastore.runQuery(query, {
-    wrapNumbers: true,
-  }).then((entities) => {
-    const results = {};
+  return datastore
+    .runQuery(query, {
+      wrapNumbers: true,
+    })
+    .then((entities) => {
+      const results = {};
 
-    results.users = entities[0].map(setUserData);
+      results.users = entities[0].map(setUserData);
 
-    if (entities[1].moreResults !== datastore.NO_MORE_RESULTS) {
-      const next = `${req.protocol}://${req.get('host') + req.baseUrl}?cursor=${
-        entities[1].endCursor
-      }`;
-      const editedNext = new URL(next.slice(0, -1));
+      if (entities[1].moreResults !== datastore.NO_MORE_RESULTS) {
+        const next = `${req.protocol}://${
+          req.get('host') + req.baseUrl
+        }?cursor=${entities[1].endCursor}`;
+        const editedNext = new URL(next.slice(0, -1));
 
-      results.next = `${editedNext}`;
-    }
+        results.next = `${editedNext}`;
+      }
 
-    return results;
-  });
+      return results;
+    });
 }
 
 async function isUserAlreadyInDatabase(req, userID) {
@@ -85,6 +89,36 @@ async function addUser(req, userID, displayName) {
   });
 }
 
+async function getUserInformation(code, res, usageDataPackage) {
+    const data = {
+      code: `${code}`,
+      client_id: `${usageDataPackage[0]}`,
+      client_secret: `${usageDataPackage[1]}`,
+      redirect_uri: `${usageDataPackage[2]}`,
+      grant_type: 'authorization_code',
+    };
+  
+    const oAuthTokenURL = 'https://oauth2.googleapis.com/token';
+    let tokenResponse = await axios.post(oAuthTokenURL, data);
+    const { access_token, id_token } = tokenResponse.data;
+    let config = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        withCredentials: true,
+      },
+    };
+    const peopleURL =
+      'https://people.googleapis.com/v1/people/me?personFields=names';
+  
+    let infoResponse = await axios.get(peopleURL, config);
+    const { displayName } = infoResponse.data.names[0];
+    res.cookie('displayName', displayName, { expire: new Date() + 300000 });
+    res.cookie('token', id_token, { expire: new Date() + 300000 });
+  
+    let userID = await verify(id_token);
+    res.cookie('userID', userID, { expire: new Date() + 300000 });
+  }
+
 module.exports = {
   setUserData,
   getUserCount,
@@ -93,4 +127,5 @@ module.exports = {
   isUserAlreadyInDatabase,
   postUser,
   addUser,
+  getUserInformation,
 };
