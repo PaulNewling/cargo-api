@@ -49,8 +49,8 @@ async function getUsers(req) {
   });
 }
 
-async function isUserAlreadyInDatabase(userID) {
-  return getUsers().then((entities) => {
+async function isUserAlreadyInDatabase(req, userID) {
+  return getUsers(req).then((entities) => {
     let userList = {};
     if (typeof entities.users !== 'undefined') {
       userList = entities.users.map(getUserIDs);
@@ -75,8 +75,8 @@ async function postUser(userID, displayName) {
   return datastore.save({ key, data: newUser }).then(() => key);
 }
 
-async function addUser(userID, displayName) {
-  return isUserAlreadyInDatabase(userID).then((isInDataBase) => {
+async function addUser(req, userID, displayName) {
+  return isUserAlreadyInDatabase(req, userID).then((isInDataBase) => {
     if (!isInDataBase) {
       postUser(userID, displayName);
       return true;

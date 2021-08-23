@@ -4,7 +4,6 @@ const { v4: uuidv4 } = require('uuid');
 const cookieParser = require('cookie-parser');
 const { checkJSONError } = require('./middleware/reqContentAcceptsCheck');
 
-
 require('dotenv').config();
 
 const app = express();
@@ -27,7 +26,7 @@ if (app.get('env') === 'development') {
   const morgan = require('morgan');
   app.use(morgan('dev'));
 }
-else {
+ else {
   redirect = process.env.REDIR2;
 }
 
@@ -35,22 +34,18 @@ app.get('/', (req, res) => {
   res.clearCookie('displayName');
   res.clearCookie('userID');
   res.clearCookie('token');
-
   res.render('home');
 });
 
 app.get('/authenticate', (req, res) => {
   const state = uuidv4();
-
   const redirectURL = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&scope=profile&state=${state}`;
-
   res.redirect(redirectURL);
 });
 
 app.get('/oauth', (req, res) => {
   const { code } = req.query;
   const oAuthTokenURL = 'https://oauth2.googleapis.com/token';
-  // console.log(code);
 
   if (code) {
     let config = {
@@ -71,7 +66,6 @@ app.get('/oauth', (req, res) => {
       .post(oAuthTokenURL, data, config)
       .then((postRes) => {
         const { access_token, id_token } = postRes.data;
-        // console.log(postRes.data);
 
         config = {
           headers: {
@@ -80,7 +74,8 @@ app.get('/oauth', (req, res) => {
           },
         };
 
-        const peopleURL = 'https://people.googleapis.com/v1/people/me?personFields=names';
+        const peopleURL =
+          'https://people.googleapis.com/v1/people/me?personFields=names';
 
         axios
           .get(peopleURL, config)
@@ -100,26 +95,24 @@ app.get('/oauth', (req, res) => {
           })
 
           .catch((e) => {
-            // eslint-disable-next-line no-console
             console.log(e);
             res.redirect('/error');
           });
       })
 
       .catch((e) => {
-        // eslint-disable-next-line no-console
         console.log(e);
         res.redirect('/error');
       });
   }
-  else {
+ else {
     res.redirect('/');
   }
 });
 
 app.get('/success', (req, res) => {
   const { displayName, userID, token } = req.cookies;
-  addUser(userID, displayName);
+  addUser(req, userID, displayName);
   res.render('oauth', { displayName, userID, token });
 });
 

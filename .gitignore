@@ -2,3 +2,5 @@ node_modules
 *.http
 .eslintrc.js
 app.yaml
+.gcloudignore
+.env
