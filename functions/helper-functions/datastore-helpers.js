@@ -13,7 +13,6 @@ module.exports = {
 module.exports.Datastore = Datastore;
 module.exports.datastore = new Datastore();
 module.exports.fromDatastore = function fromDatastore(item) {
-  // eslint-disable-next-line no-param-reassign
   item.id = item[Datastore.KEY].id;
   return item;
 };
