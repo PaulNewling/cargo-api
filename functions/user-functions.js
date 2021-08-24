@@ -41,9 +41,7 @@ async function getUsers(req) {
       results.users = entities[0].map(setUserData);
 
       if (entities[1].moreResults !== datastore.NO_MORE_RESULTS) {
-        const next = `${req.protocol}://${
-          req.get('host') + req.baseUrl
-        }?cursor=${entities[1].endCursor}`;
+        const next = `${req.protocol}://${req.get('host') + req.baseUrl}?cursor=${entities[1].endCursor}`;
         const editedNext = new URL(next.slice(0, -1));
 
         results.next = `${editedNext}`;
@@ -90,34 +88,37 @@ async function addUser(req, userID, displayName) {
 }
 
 async function getUserInformation(code, res, usageDataPackage) {
-    const data = {
-      code: `${code}`,
-      client_id: `${usageDataPackage[0]}`,
-      client_secret: `${usageDataPackage[1]}`,
-      redirect_uri: `${usageDataPackage[2]}`,
-      grant_type: 'authorization_code',
-    };
-  
-    const oAuthTokenURL = 'https://oauth2.googleapis.com/token';
-    let tokenResponse = await axios.post(oAuthTokenURL, data);
-    const { access_token, id_token } = tokenResponse.data;
-    let config = {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        withCredentials: true,
-      },
-    };
-    const peopleURL =
-      'https://people.googleapis.com/v1/people/me?personFields=names';
-  
-    let infoResponse = await axios.get(peopleURL, config);
-    const { displayName } = infoResponse.data.names[0];
-    res.cookie('displayName', displayName, { expire: new Date() + 300000 });
-    res.cookie('token', id_token, { expire: new Date() + 300000 });
-  
-    let userID = await verify(id_token);
+  const data = {
+    code: `${code}`,
+    client_id: `${usageDataPackage[0]}`,
+    client_secret: `${usageDataPackage[1]}`,
+    redirect_uri: `${usageDataPackage[2]}`,
+    grant_type: 'authorization_code',
+  };
+
+  const oAuthTokenURL = 'https://oauth2.googleapis.com/token';
+  let tokenResponse = await axios.post(oAuthTokenURL, data);
+  const { access_token, id_token } = tokenResponse.data;
+  let config = {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      withCredentials: true,
+    },
+  };
+  const peopleURL = 'https://people.googleapis.com/v1/people/me?personFields=names';
+
+  let infoResponse = await axios.get(peopleURL, config);
+  const { displayName } = infoResponse.data.names[0];
+  res.cookie('displayName', displayName, { expire: new Date() + 300000 });
+  res.cookie('token', id_token, { expire: new Date() + 300000 });
+  try {
+    var userID = await verify(id_token);
+  } catch (e) {
+    console.log(e);
+  } finally {
     res.cookie('userID', userID, { expire: new Date() + 300000 });
   }
+}
 
 module.exports = {
   setUserData,

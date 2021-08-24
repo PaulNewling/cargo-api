@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const cookieParser = require('cookie-parser');
@@ -24,13 +23,11 @@ if (app.get('env') === 'development') {
   redirect = process.env.REDIR1;
   const morgan = require('morgan');
   app.use(morgan('dev'));
-}
- else {
+} else {
   redirect = process.env.REDIR2;
 }
 
 const usageDataPackage = [client_id, client_secret, redirect];
-
 
 app.get('/', (req, res) => {
   res.render('home');
@@ -48,13 +45,11 @@ app.get('/oauth', async (req, res) => {
     try {
       await getUserInformation(code, res, usageDataPackage);
       res.redirect('/success');
-    }
- catch (e) {
+    } catch (e) {
       console.log(e);
       res.redirect('/error');
     }
-  }
- else {
+  } else {
     res.redirect('/');
   }
 });

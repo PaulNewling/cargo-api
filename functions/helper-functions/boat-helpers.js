@@ -1,7 +1,5 @@
 function respondRequirementsNotMet(res) {
-  res
-    .status(400)
-    .json({ Error: 'The request attributes do not meet requirements' });
+  res.status(400).json({ Error: 'The request attributes do not meet requirements' });
 }
 
 function isAlphaNumericOrSpace(str) {
@@ -38,11 +36,7 @@ function checkBodyLengthAboveMax(max, req) {
 }
 
 function checkAllBoatAttributes(name, length, req) {
-  if (
-    checkValidName(name) &&
-    !checkBodyLengthAboveMax(4, req) &&
-    Number.isInteger(length)
-  ) {
+  if (checkValidName(name) && !checkBodyLengthAboveMax(4, req) && Number.isInteger(length)) {
     return true;
   }
   return false;

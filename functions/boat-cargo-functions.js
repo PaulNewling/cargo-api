@@ -1,8 +1,4 @@
-const {
-  BOATS,
-  CARGO,
-  datastore,
-} = require('./helper-functions/datastore-helpers');
+const { BOATS, CARGO, datastore } = require('./helper-functions/datastore-helpers');
 const { getSpecificBoat } = require('./boat-functions');
 const { getSpecificCargo } = require('./cargo-functions');
 

@@ -51,10 +51,7 @@ async function getBoats(req) {
 }
 
 async function getAllBoatsOfOwnerID(req, userID) {
-  let query = datastore
-    .createQuery(BOATS)
-    .filter('owner', '=', userID)
-    .limit(5);
+  let query = datastore.createQuery(BOATS).filter('owner', '=', userID).limit(5);
   if (Object.keys(req.query).includes('cursor')) {
     query = query.start(req.query.cursor);
   }
@@ -73,16 +70,16 @@ async function getAllBoatsOfOwnerID(req, userID) {
 async function getSpecificBoat(id) {
   const key = datastore.key([BOATS, parseInt(id, 10)]);
   const query = datastore.createQuery(BOATS).filter('__key__', '=', key);
-  const results = await datastore.runQuery(query)
-    const selectedBoat = results[0].map(setBoatData);
-    return selectedBoat;
+  const results = await datastore.runQuery(query);
+  const selectedBoat = results[0].map(setBoatData);
+  return selectedBoat;
 }
 
 async function getSpecificBoatCargo(boatCargo) {
   const allCargo = [];
-  for  (const cargo of boatCargo) {
-    const specificCargo = await getSpecificCargo(cargo.id)
-      allCargo.push(specificCargo[0]);
+  for (const cargo of boatCargo) {
+    const specificCargo = await getSpecificCargo(cargo.id);
+    allCargo.push(specificCargo[0]);
   }
   return allCargo;
 }
@@ -91,20 +88,19 @@ async function getSpecificBoatCargo(boatCargo) {
 async function patchBoat(bid, name, type, length) {
   const key = datastore.key([BOATS, parseInt(bid, 10)]);
 
-  const boat = await getSpecificBoat(bid)
-    const updatedBoat = boat[0];
-    if (name != null) {
-      updatedBoat.name = name;
-    }
-    if (type != null) {
-      updatedBoat.type = type;
-    }
-    if (length != null) {
-      updatedBoat.length = length;
-    }
-    await datastore.save({ key, data: updatedBoat });
-    return await getSpecificBoat(bid);
-
+  const boat = await getSpecificBoat(bid);
+  const updatedBoat = boat[0];
+  if (name != null) {
+    updatedBoat.name = name;
+  }
+  if (type != null) {
+    updatedBoat.type = type;
+  }
+  if (length != null) {
+    updatedBoat.length = length;
+  }
+  await datastore.save({ key, data: updatedBoat });
+  return await getSpecificBoat(bid);
 }
 
 // Deletes selected boat with id of 'id' in the datastore
