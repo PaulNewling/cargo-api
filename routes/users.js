@@ -7,18 +7,15 @@ const userRouter = express.Router();
 
 userRouter.use(checkJSONError);
 
-userRouter.get('/', onlyAcceptGET, (req, res) => {
-  getUsers(req).then((response) => {
-    getUserCount().then((count) => {
-      response.count = count;
-      if (typeof response.users !== 'undefined') {
-        res.status(200).json(response);
-      }
-      else {
-        res.status(200).json([]);
-      }
-    });
-  });
+userRouter.get('/', onlyAcceptGET, async (req, res) => {
+  let response = await getUsers(req);
+  let count = await getUserCount();
+  response.count = count;
+  if (typeof response.users !== 'undefined') {
+    res.status(200).json(response);
+  } else {
+    res.status(200).json([]);
+  }
 });
 
 userRouter.all('*', onlyAcceptGET);
