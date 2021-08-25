@@ -14,7 +14,7 @@ const {
 const { placeCargoOnBoat, removeCargoFromBoat, unassignAllCargo } = require('../functions/boat-cargo-functions');
 const { getSpecificCargo } = require('../functions/cargo-functions');
 const { checkAcceptJSON, checkContentAndAccepts } = require('../middleware/reqContentAcceptsCheck');
-const { checkIDisNumber } = require('../functions/helper-functions/checkIDisNumber');
+const { checkIDisNumber } = require('../functions/helper-functions/boat-helpers');
 
 /* ===== Boat Controller Functions ===== */
 

@@ -1,3 +1,10 @@
+/**
+ * Author: Paul Newling
+ * Date: 24AUG21
+ * File: datastore-helpers.js
+ * Description: Helper functions and initializations for use of the Google Cloud Datastore
+ *  */ 
+
 const { Datastore } = require('@google-cloud/datastore');
 
 const BOATS = 'Boats';
