@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CS493 Final Assignment - Paul Newling</title>
+    <title>Cargo Management API - Authenticated</title>
     <link rel="stylesheet" href="/static/css/app.css" />
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
     <script src="/static/js/jquery-3.6.0.min.js"></script>
@@ -13,11 +13,11 @@
 </head>
 
 <body>
-    <div id="Header-Text" class="container-lg">
-        <h1>OSU CS493 Cloud Computing - Final Assignment</h1>
+    <div id="Header-Text">
+        <h1>Cargo Management API <br/>- Authenticated -</h1>
         <h5 class="text-muted">By Paul Newling</h5>
     </div>
-    <div id="Body-Text" class="container-sm">
+    <div id="Body-Text">
         <h3>Authentication Complete.</h3>
         <hr />
         <p> Hello <kbd class="text-warning bg-dark"> <%= displayName %>
@@ -30,9 +30,7 @@
         <p>Your JWT:</p>
         <div class="container">
             <div class="row">
-                <div class="col">
-
-                </div>
+                <div class="col"></div>
                 <div class="col-6 text-wrap">
                     <p id="JWT" class="text-wrap text-break text-warning bg-dark">
                         <%= token %>
@@ -42,16 +40,14 @@
                     <button onClick="copyJWT();$('.alert').show()" id="copyBtn" type="button"
                         class="btn btn-warning">Copy JWT to Clipboard</button>
                     <div style="display: none;" class="alert alert-success" role="alert">
-
                         Success! JWT copied to clipboard.
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <p>A new JWT will be created each time you are authenticated.</p>
-    <p>You can now use this JWT to access the boats and cargo routes.</p>
-    <p>Use the button below to clear cookies and return to the home page.</p>
+    <p>A new JWT will be created each time you are authenticated. <br/>
+    You can now use this JWT to access the boats and cargo routes.</p>
     <form action="/" method="get">
         <button type="submit" class="btn btn-primary">Return to Home</button>
     </form>
@@ -67,6 +63,5 @@
         range.selectNodeContents(text);
         selection.removeAllRanges();
         selection.addRange(range);
-        //add to clipboard.
         document.execCommand('copy')
     };</script>

@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CS493 Final Assignment - Paul Newling</title>
+    <title>Cargo Management API</title>
     <link rel="stylesheet" href="/static/css/app.css" />
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
     <script src="/static/js/jquery-3.6.0.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <div id="Header-Text" class="container-lg">
-      <h1>OSU CS493 Cloud Computing - Final Assignment</h1>
-      <h5 class="text-muted">By Paul Newling</h5>
-    </div>
-    <div id="Body-Text" class="container-sm">
-      <p>
-        This simple web app is for Oregon State University's CS493 Cloud
-        Computing's Final Assignment.
-      </p>
-      <p>
-        Logging in with your Gmail will generate a JWT to allow you to then make
-        backend requests to
-        <b> create, read, update and delete boats and cargo </b> in the
-        Datastore. After your first login your unique userID will also be added
-        to the users the datastore.
-      </p>
-      <p>
-        Cookies used here will just be for displaying the JWT on the success
-        page. Nothing will be saved after the browser is closed.
-      </p>
-      <form action="/authenticate" method="get">
-        <button type="submit" class="btn btn-secondary">Generate JWT</button>
-      </form>
-    </div>
-  </body>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div id="Header-Text" class="col-8">
+                <h1>Cargo Management API <br />-Login-</h1>
+                <h5 class="text-muted">By Paul Newling</h5>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+
+            <div id="Body-Text" class="col-8">
+                <p>This simple web app is the portfolio project for Oregon State University's CS493 Cloud Computing.</p>
+                <p>
+                    Logging in with your Gmail will generate a JWT to allow you to then make backend requests to
+                    <b> create, read, update, delete, boats and cargo as well as create associations between them</b> in
+                    the associated datastore. After your
+                    first login your unique userID will also be added to the users datastore.
+                </p>
+                <p>
+                    To make the associated requests and interact with the backend you will need to use a tool like
+                    Postman. Example
+                    postman tests, the full documentation, and project code can be found on the project Github <b><a
+                        href="https://github.com/PaulNewling/cargo-api" class="text-decoration-none">HERE</a></b>.
+                </p>
+                <form action="/authenticate" method="get">
+                    <button type="submit" class="btn btn-secondary">Generate JWT</button>
+                </form>
+            </div>
+            <div class="col-2"></div>
+        </div>
+</body>
+
 </html>
