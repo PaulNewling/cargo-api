@@ -77,7 +77,9 @@ cargoRouter.put('/:cid', checkContentAndAccepts, async (req, res) => {
   } else {
     let cargo = await getSpecificCargo(cid);
     if (Object.keys(cargo).length !== 0) {
-      let updatedCargo = patchCargo(cid, volume, content, creationDate);
+      
+      let updatedCargo = await patchCargo(cid, volume, content, creationDate);
+      console.log(updatedCargo);
       await addSelfURL(req, updatedCargo[0]);
       res.status(200).json(updatedCargo[0]);
     } else {
