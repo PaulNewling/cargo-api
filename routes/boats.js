@@ -1,5 +1,11 @@
-const express = require('express');
+/**
+ * Author: Paul Newling
+ * Date: 24AUG21
+ * File: boats.js
+ * Description: File that contains all of the boat related routes
+ *  */
 
+const express = require('express');
 const boatRouter = express.Router();
 const { respondBadJWT, checkJWT } = require('../functions/jwt-functions');
 const { addSelfURL } = require('../functions/helper-functions/addSelf-helpers');
@@ -16,10 +22,9 @@ const { getSpecificCargo } = require('../functions/cargo-functions');
 const { checkAcceptJSON, checkContentAndAccepts } = require('../middleware/reqContentAcceptsCheck');
 const { checkIDisNumber } = require('../functions/helper-functions/boat-helpers');
 
-/* ===== Boat Controller Functions ===== */
-
-// GET route that will display the boats related to the user of the
-//  corresponding JWT. If the JWT is missing or broken an error will be returned to the user
+/**
+ * GET route for boats
+ */
 boatRouter.get('/', [checkAcceptJSON, checkJWT], async (req, res) => {
   const { userID } = req.params;
   if (req.error) {
@@ -43,6 +48,9 @@ boatRouter.get('/', [checkAcceptJSON, checkJWT], async (req, res) => {
   }
 });
 
+/**
+ * POST route for boats
+ */
 boatRouter.post('/', [checkContentAndAccepts, checkJWT], async (req, res) => {
   const { name, type, length } = req.body;
   const { userID } = req.params;
@@ -59,7 +67,9 @@ boatRouter.post('/', [checkContentAndAccepts, checkJWT], async (req, res) => {
   }
 });
 
-// GET route for boats that gets a specific boat with id
+/**
+ * GET route for getting a boat with a specific ID
+ */
 boatRouter.get('/:bid', [checkAcceptJSON, checkJWT], async (req, res) => {
   const { bid, userID } = req.params;
   if (req.error) {
@@ -84,6 +94,9 @@ boatRouter.get('/:bid', [checkAcceptJSON, checkJWT], async (req, res) => {
   }
 });
 
+/**
+ * PATCH route to update a boat attribute
+ */
 boatRouter.patch('/:boatID', [checkContentAndAccepts, checkJWT], async (req, res) => {
   const { boatID, userID } = req.params;
   const { id, name, type, length } = req.body;
@@ -114,6 +127,9 @@ boatRouter.patch('/:boatID', [checkContentAndAccepts, checkJWT], async (req, res
   }
 });
 
+/**
+ * PUT route to update all boat attributes
+ */
 boatRouter.put('/:boatID', [checkContentAndAccepts, checkJWT], async (req, res) => {
   const { boatID, userID } = req.params;
   const { id, name, type, length } = req.body;
@@ -144,7 +160,9 @@ boatRouter.put('/:boatID', [checkContentAndAccepts, checkJWT], async (req, res) 
   }
 });
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~
+/**
+ * PATCH route that associates one boat with one cargo
+ */
 boatRouter.patch('/:bid/cargo/:cid', checkJWT, async (req, res) => {
   const { bid, cid, userID } = req.params;
 
@@ -177,6 +195,9 @@ boatRouter.patch('/:bid/cargo/:cid', checkJWT, async (req, res) => {
   }
 });
 
+/**
+ * DELETE route that disassociates one boat and one cargo
+ */
 boatRouter.delete('/:bid/cargo/:cid', [checkAcceptJSON, checkJWT], async (req, res) => {
   const { bid, cid, userID } = req.params;
 
@@ -220,7 +241,9 @@ boatRouter.delete('/:bid/cargo/:cid', [checkAcceptJSON, checkJWT], async (req, r
   }
 });
 
-// DELETE route for boat that deletes selected boat if it exists.
+/**
+ * DELETE route that deletes a boat
+ */
 boatRouter.delete('/:boatID', checkJWT, async (req, res) => {
   const { boatID, userID } = req.params;
   if (req.error) {

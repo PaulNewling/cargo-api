@@ -1,7 +1,12 @@
+/**
+ * Author: Paul Newling
+ * Date: 24AUG21
+ * File: cargo.js
+ * Description: File that contains all of the routes associated with cargo
+ *  */
+
 const express = require('express');
-
 const cargoRouter = express.Router();
-
 const { addSelfURL } = require('../functions/helper-functions/addSelf-helpers');
 const {
   getCargo,
@@ -15,8 +20,10 @@ const { getSpecificBoat } = require('../functions/boat-functions');
 const { removeCargoFromBoat } = require('../functions/boat-cargo-functions');
 const { checkAcceptJSON, checkContentAndAccepts } = require('../middleware/reqContentAcceptsCheck');
 
-/* ======================================= */
 
+/**
+ * GET route to get all cargo
+ */
 cargoRouter.get('/', checkAcceptJSON, async (req, res) => {
   let response = await getCargo(req);
   let count = await getCargoCount();
@@ -31,7 +38,9 @@ cargoRouter.get('/', checkAcceptJSON, async (req, res) => {
   }
 });
 
-// GET route for cargo that gets a specific cargo with id
+/**
+ * GET route to get specific cargo with ID
+ */
 cargoRouter.get('/:id', checkAcceptJSON, async (req, res) => {
   const { id } = req.params;
   let cargo = await getSpecificCargo(id);
@@ -43,7 +52,9 @@ cargoRouter.get('/:id', checkAcceptJSON, async (req, res) => {
   }
 });
 
-// POST route for cargo that creates a new cargo in the datastore
+/**
+ * POST route to create new cargo
+ */
 cargoRouter.post('/', checkContentAndAccepts, async (req, res) => {
   const { volume, content, creationDate } = req.body;
   if (volume == null || content == null || creationDate == null) {
@@ -56,6 +67,9 @@ cargoRouter.post('/', checkContentAndAccepts, async (req, res) => {
   }
 });
 
+/**
+ * PATCH route to update cargo attribute
+ */
 cargoRouter.patch('/:cid', checkContentAndAccepts, async (req, res) => {
   const { volume, content, creationDate } = req.body;
   const { cid } = req.params;
@@ -69,6 +83,9 @@ cargoRouter.patch('/:cid', checkContentAndAccepts, async (req, res) => {
   }
 });
 
+/**
+ * PUT route to update all cargo attributes
+ */
 cargoRouter.put('/:cid', checkContentAndAccepts, async (req, res) => {
   const { volume, content, creationDate } = req.body;
   const { cid } = req.params;
@@ -88,7 +105,9 @@ cargoRouter.put('/:cid', checkContentAndAccepts, async (req, res) => {
   }
 });
 
-// DELETE route for boat that deletes selected boat if it exists.
+/**
+ * DELETE route to delete one cargo
+ */
 cargoRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
   let cargo = await getSpecificCargo(id);

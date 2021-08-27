@@ -1,3 +1,10 @@
+/**
+ * Author: Paul Newling
+ * Date: 24AUG21
+ * File: checkMethod.js
+ * Description: Middleware to ensure only the GET method is accepted
+ *  */
+
 function onlyAcceptGET(req, res, next) {
   const acceptedMethods = ['GET'];
   if (Object.keys(req.params).length === 0) {
