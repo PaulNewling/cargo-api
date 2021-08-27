@@ -49,14 +49,21 @@ app.get('/', (req, res) => {
   res.render('home');
 });
 
-// Used with redirection from Google's People API authorization
+/**
+ * Linked from the 'home' page in the above route this route is the start of OAuth2.0 for this site.
+ * We create a state variable and redirect through Google's API asking the user to log in
+ */
 app.get('/authenticate', (req, res) => {
   const state = uuidv4();
   const redirectURL = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&scope=profile&state=${state}`;
   res.redirect(redirectURL);
 });
 
-// Endpoint of the Google People API after the user has been authorized
+/**
+ * After the user has logged in through the Google endpoint we check that a code has been generated through the OAuth2.0 workflow.
+ * With this code we then hand the code, request object and usage data to the getUserInformation() function which will complete the OAuth2.0 workflow.
+ * After the function returns we redirect the user the success page.
+ */
 app.get('/oauth', async (req, res) => {
   const { code } = req.query;
   if (code) {
@@ -72,14 +79,18 @@ app.get('/oauth', async (req, res) => {
   }
 });
 
-// Full information from the Google People API displayed
+/**
+ * Information pulled from the Google API using the OAuth2.0 workflow allows us to display the JWT, user name and user ID.
+ */
 app.get('/success', (req, res) => {
   const { displayName, userID, token } = req.cookies;
   addUser(req, userID, displayName);
   res.render('oauth', { displayName, userID, token });
 });
 
-// Error page to collect any issues with Google People OAuth2.0
+/**
+ * Error page to collect any issues with Google People OAuth2.0 and clears cookies (they have a timer, but this is to ensure a reset)
+ *  */ 
 app.get('/error', (req, res) => {
   res.clearCookie('displayName');
   res.clearCookie('userID');

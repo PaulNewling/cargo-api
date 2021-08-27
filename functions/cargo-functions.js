@@ -1,5 +1,16 @@
+/**
+ * Author: Paul Newling
+ * Date: 24AUG21
+ * File: cargo-functions.js
+ * Description: Functions involved with manipulation of cargo objects
+ *  */
 const { CARGO, datastore } = require('./helper-functions/datastore-helpers');
 
+/**
+ * Function that sets a cargo objects details and id
+ * @param {cargoObject} cargoObject 
+ * @returns cargo object
+ */
 function setCargoData(cargoObject) {
   const cargoDetails = {
     id: cargoObject[datastore.KEY].id,
@@ -11,6 +22,13 @@ function setCargoData(cargoObject) {
   return cargoDetails;
 }
 
+/**
+ * Function that adds a cargo object to the datastore
+ * @param {int} volume 
+ * @param {string} content 
+ * @param {string} creationDate 
+ * @returns (int) key
+ */
 async function postCargo(volume, content, creationDate) {
   const key = datastore.key(CARGO);
   const newCargo = {
@@ -23,6 +41,10 @@ async function postCargo(volume, content, creationDate) {
   return key;
 }
 
+/**
+ * Function that gets a count of all cargo in the datastore
+ * @returns int(count)
+ */
 async function getCargoCount() {
   const query = datastore.createQuery(CARGO);
   const entities = await datastore.runQuery(query);
@@ -30,12 +52,17 @@ async function getCargoCount() {
   return count;
 }
 
+/**
+ * Function that uses pagination to return an array of cargo objects.
+ * If more than 5 cargo objects are in the datastore a link to the next page is displayed
+ * @param {request object} req 
+ * @returns array of cargo and if more than 5 cargo object a link to the next page
+ */
 async function getCargo(req) {
   let query = datastore.createQuery(CARGO).limit(5);
   if (Object.keys(req.query).includes('cursor')) {
     query = query.start(req.query.cursor);
   }
-
   const entities = await datastore.runQuery(query);
   const results = {};
   results.cargo = entities[0].map(setCargoData);
@@ -47,16 +74,27 @@ async function getCargo(req) {
   return results;
 }
 
-// Returns a specific cargo with a cargo id of 'id'
+/**
+ * Fetches cargo object with specified id
+ * @param {ID int} id 
+ * @returns cargo object
+ */
 async function getSpecificCargo(id) {
   const key = datastore.key([CARGO, parseInt(id, 10)]);
   const query = datastore.createQuery(CARGO).filter('__key__', '=', key);
-
   const results = await datastore.runQuery(query);
   const selectedCargo = results[0].map(setCargoData);
   return selectedCargo;
 }
 
+/**
+ * Function that updates a cargo object's attributes in the datastore
+ * @param {ID int} id 
+ * @param {int} volume 
+ * @param {string} content 
+ * @param {string} creationDate 
+ * @returns cargo object
+ */
 async function patchCargo(id, volume, content, creationDate) {
   const key = datastore.key([CARGO, parseInt(id, 10)]);
   const cargo = await getSpecificCargo(id);
@@ -74,7 +112,11 @@ async function patchCargo(id, volume, content, creationDate) {
   return await getSpecificCargo(id);
 }
 
-// Deletes selected boat with id of 'id' in the datastore
+/**
+ * Deletes cargo object with specified id
+ * @param {ID int} id 
+ * @returns key (not normally used)
+ */
 async function deleteCargo(id) {
   const key = datastore.key([CARGO, parseInt(id, 10)]);
   return await datastore.delete(key);
