@@ -6,8 +6,8 @@
  *  */
 
 const axios = require('axios');
-const { datastore, USERS } = require('./helper-functions/datastore-helpers');
-const { verify } = require('./jwt-functions');
+const { datastore, USERS } = require('./helper-functions/datastoreHelpers');
+const { verify } = require('./jwtFunctions');
 
 /**
  * Function that sets user data into one object
@@ -49,7 +49,11 @@ async function getUserCount() {
  * @returns array of user objects, possibly with paginated link
  */
 async function getUsers(req) {
+
+  // Creates pagination limit of 5
   let query = datastore.createQuery(USERS).limit(5);
+
+  // Checks to see if 'curson' is included, this tells the pagination where to start
   if (Object.keys(req.query).includes('cursor')) {
     query = query.start(req.query.cursor);
   }

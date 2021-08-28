@@ -7,7 +7,7 @@
 
 const express = require('express');
 const cargoRouter = express.Router();
-const { addSelfURL } = require('../functions/helper-functions/addSelf-helpers');
+const { addSelfURL } = require('../functions/helper-functions/addSelfHelpers');
 const {
   getCargo,
   getSpecificCargo,
@@ -15,9 +15,9 @@ const {
   patchCargo,
   deleteCargo,
   getCargoCount,
-} = require('../functions/cargo-functions');
-const { getSpecificBoat } = require('../functions/boat-functions');
-const { removeCargoFromBoat } = require('../functions/boat-cargo-functions');
+} = require('../functions/cargoFunctions');
+const { getSpecificBoat } = require('../functions/boatFunctions');
+const { removeCargoFromBoat } = require('../functions/boatCargoFunctions');
 const { checkAcceptJSON, checkContentAndAccepts } = require('../middleware/reqContentAcceptsCheck');
 
 

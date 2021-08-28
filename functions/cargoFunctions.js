@@ -4,7 +4,7 @@
  * File: cargo-functions.js
  * Description: Functions involved with manipulation of cargo objects
  *  */
-const { CARGO, datastore } = require('./helper-functions/datastore-helpers');
+const { CARGO, datastore } = require('./helper-functions/datastoreHelpers');
 
 /**
  * Function that sets a cargo objects details and id
@@ -59,7 +59,11 @@ async function getCargoCount() {
  * @returns array of cargo and if more than 5 cargo object a link to the next page
  */
 async function getCargo(req) {
+
+  // Sets paginiation limit to 5
   let query = datastore.createQuery(CARGO).limit(5);
+
+  // check is 'curson' is in the query, this sets what page to begin on
   if (Object.keys(req.query).includes('cursor')) {
     query = query.start(req.query.cursor);
   }

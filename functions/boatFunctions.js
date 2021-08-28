@@ -5,8 +5,8 @@
  * Description: Functions involved with manipulation of boat objects
  *  */
 
-const { BOATS, datastore } = require('./helper-functions/datastore-helpers');
-const { getSpecificCargo } = require('./cargo-functions');
+const { BOATS, datastore } = require('./helper-functions/datastoreHelpers');
+const { getSpecificCargo } = require('./cargoFunctions');
 
 /**
  * Sets boat object details and id
@@ -65,7 +65,11 @@ async function getBoatCountOfUserID(userID) {
  * @returns array of boat objects if there are any, if more than 5 also includes a link to next set of boat objects
  */
 async function getBoats(req) {
+
+  // Sets boat limit per page to 5
   let query = datastore.createQuery(BOATS).limit(5);
+
+  // If cursor is in the query, this sets what page to set the search
   if (Object.keys(req.query).includes('cursor')) {
     query = query.start(req.query.cursor);
   }

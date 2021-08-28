@@ -6,7 +6,7 @@
  *  */
 
 const express = require('express');
-const { getUsers, getUserCount } = require('../functions/user-functions');
+const { getUsers, getUserCount } = require('../functions/userFunctions');
 const { onlyAcceptGET } = require('../middleware/checkMethod');
 const { checkJSONError } = require('../middleware/reqContentAcceptsCheck');
 const userRouter = express.Router();
