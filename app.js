@@ -11,7 +11,7 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const cookieParser = require('cookie-parser');
-const { addUser, getUserInformation } = require('./functions/user-functions');
+const { addUser, getUserInformation } = require('./functions/userFunctions');
 const { checkJSONError } = require('./middleware/reqContentAcceptsCheck');
 
 /**
@@ -54,6 +54,8 @@ app.get('/', (req, res) => {
  * We create a state variable and redirect through Google's API asking the user to log in
  */
 app.get('/authenticate', (req, res) => {
+
+  // Create a universal unique identifier for the state value
   const state = uuidv4();
   const redirectURL = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${client_id}&redirect_uri=${redirect}&scope=profile&state=${state}`;
   res.redirect(redirectURL);
