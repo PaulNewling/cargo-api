@@ -5,9 +5,9 @@
  * Description: Functions that involve both boat and cargo object. Predominately this involves associating boats with cargo and visa versa
  *  */
 
-const { BOATS, CARGO, datastore } = require('./helper-functions/datastore-helpers');
-const { getSpecificBoat } = require('./boat-functions');
-const { getSpecificCargo } = require('./cargo-functions');
+const { BOATS, CARGO, datastore } = require('./helper-functions/datastoreHelpers');
+const { getSpecificBoat } = require('./boatFunctions');
+const { getSpecificCargo } = require('./cargoFunctions');
 
 /**
  * Sets the Cargo 'carrier' attribute to the boat.id
