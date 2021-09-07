@@ -43,7 +43,6 @@ async function checkJWT(req, res, next) {
       req.params.userID = userID;
       next();
     } catch (e) {
-      console.log(e);
       req.error = true;
       next();
     }

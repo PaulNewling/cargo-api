@@ -43,7 +43,7 @@ boatRouter.get('/', [checkAcceptJSON, checkJWT], async (req, res) => {
     // and the step of appending associated URLs can be skipped
     if (typeof response !== 'undefined') {
       // For each boat attached the associated URL
-      for (let i = 0; i < response.boats.length-1; i++) {
+      for (let i = 0; i < response.boats.length; i++) {
         await addSelfURL(req, response.boats[i]);
 
         // For each piece of cargo associated with that boat append the associated URL
