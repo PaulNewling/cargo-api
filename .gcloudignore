@@ -14,6 +14,8 @@
 .gitignore
 .eslintrc.js
 *.http
+README.md
+documentation/
 
 # Node.js dependencies:
 node_modules/
