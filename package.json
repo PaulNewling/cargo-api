@@ -4,7 +4,7 @@
   "description": "CS493 Final Project",
   "main": "app.js",
   "engines": {
-    "node": "16.x.x"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "start": "node app.js",

@@ -42,9 +42,8 @@ boatRouter.get('/', [checkAcceptJSON, checkJWT], async (req, res) => {
     // Check that the user is associated with at least one boat, if not response will be undefined
     // and the step of appending associated URLs can be skipped
     if (typeof response !== 'undefined') {
-
       // For each boat attached the associated URL
-      for (let i = 0; i < count; i += 1) {
+      for (let i = 0; i < response.boats.length-1; i++) {
         await addSelfURL(req, response.boats[i]);
 
         // For each piece of cargo associated with that boat append the associated URL
