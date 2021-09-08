@@ -36,7 +36,7 @@ There are three endpoints to the application. Two are for interaction of, and be
 | PUT    | /boats/:bid | Change ALL details of a boat  | Yes       |
 | DELETE | /boats/:bid | Delete a boat                 | Yes       |
 #### Parameters
-Below `:bid` refers to the boat ID of the specific boat.
+Above `:bid` refers to the boat ID of the specific boat.
 #### Sample Request Body
 ```
 {
@@ -59,15 +59,15 @@ Below `:bid` refers to the boat ID of the specific boat.
 ### Cargo
 | Method | Endpoint    | Summary                                        | Protected |
 | ------ | ----------- | ---------------------------------------------- | --------- |
-| GET    | /cargo      | Get all cargo                                  | Yes       |
-| GET    | /cargo/:cid | Get a specific cargo                           | Yes       |
-| POST   | /cargo      | Create cargo                                   | Yes       |
-| PATCH  | /cargo/:cid | Change some details of a specific cargo entity | Yes       |
-| PUT    | /cargo/:cid | Change ALL details of a specific cargo entity  | Yes       |
-| DELETE | /cargo/:cid | Delete a specific cargo entity                 | Yes       |
+| GET    | /cargo      | Get all cargo                                  | No        |
+| GET    | /cargo/:cid | Get a specific cargo                           | No        |
+| POST   | /cargo      | Create cargo                                   | No        |
+| PATCH  | /cargo/:cid | Change some details of a specific cargo entity | No        |
+| PUT    | /cargo/:cid | Change ALL details of a specific cargo entity  | No        |
+| DELETE | /cargo/:cid | Delete a specific cargo entity                 | No        |
 #### Parameters
-Below `:cid` refers to the boat ID of a specific cargo.
-#### Sample Request Body
+Above `:cid` refers to the cargo ID of a specific cargo.
+#### Sample Request Body for POST
 ```
 {
 "volume": 1400,
@@ -75,7 +75,7 @@ Below `:cid` refers to the boat ID of a specific cargo.
 "creationDate": "2021-04-21"
 }
 ```
-#### Sample Response Body
+#### Sample Response Body for POST
 ```
 {
 "id": "6468260526555136",
@@ -83,11 +83,35 @@ Below `:cid` refers to the boat ID of a specific cargo.
 "carrier": null,
 "content": "Ford Mustangs",
 "creationDate": "2021-04-21",
-“self”: "https://final-newlingp.wl.r.appspot.com/cargo/5632499082330112”
+“self”: "https://final-newlingp.wl.r.appspot.com/cargo/6468260526555136"
 }
 ```
 Note: at this time creation data needs to be submitted and does not auto-populate
 
+### Boats and Cargo Interaction
+| Method | Endpoint               | Summary                   | Protected |
+| ------ | ---------------------- | ------------------------- | --------- |
+| PATCH  | /boats/:bid/cargo/:cid | Adds cargo to a boat      | Yes       |
+| DELETE | /boats/:bid/cargo/:cid | Removes cargo from a boat | Yes       |
+#### Parameters
+Above `:bid` refers to the boat ID of the specific boat.
+Above `:cid` refers to the cargo ID of a specific cargo.
+#### Sample Response Body for PATCH
+```
+{
+"id": "4810949416452096",
+"name": "Evergiven",
+"type": "Cargo Freighter",
+"length": 12000,
+"owner": "105622306378518676498",
+"cargo": [
+    {
+    "id": "6468260526555136",
+    "self": "https://final-newlingp.wl.r.appspot.com/cargo/6468260526555136"}
+    ],
+"self": "https://final-newlingp.wl.r.appspot.com/boats/4810949416452096"
+}
+```
 
 ## Postman Testing
 A testing suite has been created with 177 tests utilizing [Postman](https://www.postman.com/). To use these tests you will need to [install Postman](https://www.postman.com/downloads/) and then import the [cargo-api-tests](documentation/PostmanTests/cargo-api-tests.postman_collection.json) and [cargo-api environment](documentation/PostmanTests/cargo-api.postman_environment.json).
