@@ -15,7 +15,7 @@ From there you will be prompted to authenticate with your Google account (if you
 
 ![Google Screen](documentation/images/google-screen.jpeg)
 
-Once authenticated you will be presented with the Authenticated screen. This screen will display your full name, your userID as well as a new JWT. This JWT can then be used to access the project's API endpoints by using the JWT as the 'Bearer Token' in the 'Authorization' header of any request made to a protected endpoint.
+Once authenticated you will be presented with the Authenticated screen. This screen will display your full name, your userID as well as a new JWT. This JWT can then be used to access the project's API endpoints by using the JWT as the `Bearer Token` in the `Authorization` header of any request made to a protected endpoint.
 
 ![Authenticated Screen](documentation/images/authentication-screen.jpeg)
 
@@ -37,7 +37,7 @@ There are three endpoints to the application. Two are for interaction of, and be
 | DELETE | /boats/:bid | Delete a boat                 | Yes       |
 #### Parameters
 Above `:bid` refers to the boat ID of the specific boat.
-#### Sample Request Body
+#### Sample Request Body for POST
 ```
 {
 "name": "Evergiven",
@@ -45,7 +45,7 @@ Above `:bid` refers to the boat ID of the specific boat.
 "length": 12000
 }
 ```
-#### Sample Response Body
+#### Sample Response Body for POST
 ```
 {
 “id”: “5632499082330112”,
@@ -104,10 +104,12 @@ Above `:cid` refers to the cargo ID of a specific cargo.
 "type": "Cargo Freighter",
 "length": 12000,
 "owner": "105622306378518676498",
-"cargo": [
-    {
-    "id": "6468260526555136",
-    "self": "https://final-newlingp.wl.r.appspot.com/cargo/6468260526555136"}
+"cargo": 
+    [
+        {
+        "id": "6468260526555136",
+        "self": "https://final-newlingp.wl.r.appspot.com/cargo/6468260526555136"
+        }
     ],
 "self": "https://final-newlingp.wl.r.appspot.com/boats/4810949416452096"
 }
@@ -119,4 +121,4 @@ Once these have been imported you will need to copy in **two** JWTs as well as c
 
 ![Postman environment variables](documentation/images/postman-setup.jpeg)
 
-After this has been completed you will be run the full battery of tests provided.
+After this has been completed you will be able to run the full battery of tests provided.
