@@ -5,6 +5,7 @@ The system is fully documented in PDF format [here](documentation/Cargo-API-Full
 
 ## **About The Project**
 The Cargo Management API system is built using Node.js and Express. The application is deployed on the Google Clout Platform. Data storage is handled but Google Datastore's NoSQL database. For testing of this application a test suite of 177 tests (across 90 request) was created in Postman leveraging the Chai Assertion Library.
+This project was seeded by a project for CS493: Cloud Application Development at Oregon State University and expanded upon for fun and exploration.
 
 ## **Using the Application**
 Navigate to [https://final-newlingp.wl.r.appspot.com/](https://final-newlingp.wl.r.appspot.com/) in any modern browser. 
